@@ -30,6 +30,7 @@ class _RoutesState extends State<Routes> {
     return Scaffold(
       body: pages[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.lightGreenAccent,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
