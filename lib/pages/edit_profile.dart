@@ -23,16 +23,22 @@ class EditProfile extends StatelessWidget {
                 ),
               ),
             ),
-            TextField(
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("Age")
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    label: Text("Age")
+                ),
               ),
             ),
-            TextField(
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("Gender")
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    label: Text("Gender")
+                ),
               ),
             ),
             ElevatedButton(
