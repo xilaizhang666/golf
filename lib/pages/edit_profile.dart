@@ -5,39 +5,42 @@ class EditProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/logo.png',
-            height: 300.0,
-          ),
-          TextField(
-            decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                label: Text("Name")
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/logo.png',
+              height: 300.0,
             ),
-          ),
-          TextField(
-            decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                label: Text("Age")
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    label: Text("Name")
+                ),
+              ),
             ),
-          ),
-          TextField(
-            decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                label: Text("Gender")
+            TextField(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  label: Text("Age")
+              ),
             ),
-          ),
-          ElevatedButton(
-              onPressed: (){},
-              child: Text("Save")
-          ),
-
-
-        ],
+            TextField(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  label: Text("Gender")
+              ),
+            ),
+            ElevatedButton(
+                onPressed: (){},
+                child: Text("Save")
+            ),
+          ],
+        ),
       ),
     );
   }
