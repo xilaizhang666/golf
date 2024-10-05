@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:golf/pages/edit_profile.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -33,7 +34,9 @@ class ProfilePage extends StatelessWidget {
         ),
         SizedBox(height: 20),
         ElevatedButton(
-            onPressed: (){},
+            onPressed: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditProfile()));
+            },
             child: Text("Edit Profile")
         ),
 
