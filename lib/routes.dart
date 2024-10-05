@@ -3,6 +3,7 @@ import 'package:golf/pages/event_detail.dart';
 import 'package:golf/pages/event_page.dart';
 import 'package:golf/pages/growth_page.dart';
 import 'package:golf/pages/home_page.dart';
+import 'package:golf/pages/profile_page.dart';
 import 'package:golf/pages/ranking_page.dart';
 
 class Routes extends StatefulWidget {
@@ -19,6 +20,7 @@ class _RoutesState extends State<Routes> {
     EventPage(),
     RankingPage(),
     GrowthPage(),
+    ProfilePage()
   ];
   void onItemTapped(int index){
     setState(() {
@@ -37,6 +39,7 @@ class _RoutesState extends State<Routes> {
           BottomNavigationBarItem(icon: Icon(Icons.event), label: "Events"),
           BottomNavigationBarItem(icon: Icon(Icons.assessment), label: "Rankings"),
           BottomNavigationBarItem(icon: Icon(Icons.trending_up), label: "Growth"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ],
         currentIndex: selectedIndex,
         onTap: onItemTapped,
