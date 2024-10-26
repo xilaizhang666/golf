@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditProfile extends StatelessWidget {
-  const EditProfile({super.key});
-
+  EditProfile({super.key});
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController ageController = TextEditingController();
+  Future<void> saveProfile() async {
+    SharedPreferences sf = await SharedPreferences.getInstance();
+    await sf.setString("name", nameController.text);
+    await sf.setString("age", ageController.text);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Edit Profile"),
+        backgroundColor: Colors.lightGreen,
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -17,6 +28,7 @@ class EditProfile extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                controller: nameController,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     label: Text("Name")
@@ -26,6 +38,7 @@ class EditProfile extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                controller: ageController,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     label: Text("Age")
@@ -42,7 +55,11 @@ class EditProfile extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-                onPressed: (){},
+                onPressed: (){
+                  saveProfile().then((_) {
+                    Navigator.pop(context, true);
+                  });
+                },
                 child: Text("Save")
             ),
           ],
