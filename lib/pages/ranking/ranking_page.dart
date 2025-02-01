@@ -1,10 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:golf/models/player.dart';
-import 'package:golf/pages/ranking/record_ranking.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:collection/collection.dart';
 
 class RankingPage extends StatefulWidget {
   RankingPage({super.key});
@@ -23,31 +20,43 @@ class _RankingPageState extends State<RankingPage> {
     fetchPlayers();
   }
 
-  Future<void> fetchPlayers() async{
+  Future<void> fetchPlayers() async {
     SharedPreferences sf = await SharedPreferences.getInstance();
     List<String> csvPlayers = sf.getStringList("players") ?? [];
-    List<Player> playersList = csvPlayers.map((csv) => Player.fromCsv(csv)).toList();
-    playersList.sort((a,b)=>b.averageScore.compareTo(a.averageScore));
+    List<Player> playersList =
+        csvPlayers.map((csv) => Player.fromCsv(csv)).toList();
+    playersList.sort((a, b) => b.averageScore.compareTo(a.averageScore));
     setState(() {
       players = playersList;
     });
   }
 
-  Future<void> addPlayer() async{
-    Player player = Player(
-        name: nameController.text,
-        averageScore: double.parse(scoreController.text)
-    );
-    setState(() {
+  Future<void> addPlayer() async {
+    final index = players.indexWhere((player)=>player.name==nameController.text);
+    if(index == -1) {
+      Player player = Player(
+          name: nameController.text,
+          averageScore: double.parse(scoreController.text),
+          games: 1);
       players.add(player);
+    } else {
+      final player = players[index];
+      final score = double.parse(scoreController.text);
+      player.averageScore = (player.averageScore * player.games + score) / (player.games + 1);
+      player.games += 1;
+      players[index] = player;
+    }
+
+    setState(() {
       nameController.clear();
       scoreController.clear();
     });
     SharedPreferences sf = await SharedPreferences.getInstance();
-    List<String> csvList = players.map((player)=>player.toCsv()).toList();
+    List<String> csvList = players.map((player) => player.toCsv()).toList();
     sf.setStringList("players", csvList);
     fetchPlayers();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,12 +76,12 @@ class _RankingPageState extends State<RankingPage> {
                 DataColumn(label: Text("Score")),
                 DataColumn(label: Text("Games")),
               ],
-              rows: players.map((player) {
+              rows: players.mapIndexed((index, player) {
                 return DataRow(cells: [
-                  DataCell(Text("1")),
+                  DataCell(Text((index + 1).toString())),
                   DataCell(Text(player.name)),
-                  DataCell(Text(player.averageScore.toString())),
-                  DataCell(Text("-")),
+                  DataCell(Text(player.averageScore.toStringAsFixed(1))),
+                  DataCell(Text(player.games.toString())),
                 ]);
               }).toList()),
           Padding(
