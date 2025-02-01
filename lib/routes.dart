@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:golf/pages/event_detail.dart';
-import 'package:golf/pages/event_page.dart';
-import 'package:golf/pages/growth_page.dart';
-import 'package:golf/pages/home_page.dart';
-import 'package:golf/pages/profile_page.dart';
-import 'package:golf/pages/ranking_page.dart';
+import 'package:golf/pages/event/event_page.dart';
+import 'package:golf/pages/growth/growth_page.dart';
+import 'package:golf/pages/home/home_page.dart';
+import 'package:golf/pages/profile/profile_page.dart';
+import 'package:golf/pages/ranking/ranking_page.dart';
 
 class Routes extends StatefulWidget {
   const Routes({super.key});

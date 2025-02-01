@@ -5,10 +5,12 @@ class EditProfile extends StatelessWidget {
   EditProfile({super.key});
   final TextEditingController nameController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
+  final TextEditingController genderController = TextEditingController();
   Future<void> saveProfile() async {
     SharedPreferences sf = await SharedPreferences.getInstance();
     await sf.setString("name", nameController.text);
     await sf.setString("age", ageController.text);
+    await sf.setString("gender", genderController.text);
   }
   @override
   Widget build(BuildContext context) {
@@ -48,6 +50,7 @@ class EditProfile extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                controller: genderController,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     label: Text("Gender")

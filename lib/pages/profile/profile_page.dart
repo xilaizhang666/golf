@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:golf/pages/edit_profile.dart';
+import 'package:golf/pages/profile/edit_profile.dart';
+import 'package:golf/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -12,6 +13,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   String name = "";
   String age = "";
+  String gender = "";
 
   @override
   void initState() {
@@ -24,6 +26,7 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       name = sf.getString("name") ?? "Unknown";
       age = sf.getString("age") ?? "0";
+      gender = sf.getString("gender") ?? "Unknown";
     });
   }
   @override
@@ -43,26 +46,23 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           Text(
             "Name: $name",
-            style: TextStyle(
-                fontSize: 30,
-            ),
+            style: textTheme.titleLarge
           ),
           Text(
             "Age: $age",
-            style: TextStyle(
-              fontSize: 30,
-            ),
+            style: textTheme.titleLarge
           ),
           Text(
-            "Gender: Unknown",
-            style: TextStyle(
-              fontSize: 30,
-            ),
+            "Gender: $gender",
+            style: textTheme.titleLarge
           ),
           SizedBox(height: 20),
           ElevatedButton(
               onPressed: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditProfile()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditProfile()))
+                .then((onValue){
+                  loadProfile();
+                });
               },
               child: Text("Edit Profile")
           ),

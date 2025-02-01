@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:golf/pages/event_page.dart';
+import 'package:golf/pages/event/event_page.dart';
 import 'package:golf/routes.dart';
 
 void main() {
