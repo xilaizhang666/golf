@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:golf/models/event.dart';
 import 'package:golf/theme.dart';
 
 class EventDetailPage extends StatelessWidget {
-  final String name;
-  final String date;
-  final String winner;
-  final String prize;
-  const EventDetailPage({super.key, required this.name, required this.date, required this.winner, required this.prize});
+  final Event event;
+  const EventDetailPage({super.key, required this.event});
 
 
   @override
@@ -14,7 +12,7 @@ class EventDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            name
+            event.name
         ),
         backgroundColor: Colors.lightGreen,
       ),
@@ -24,22 +22,22 @@ class EventDetailPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Tournament: $name",
+              "Event: ${event.name}",
               style: textTheme.titleMedium,
             ),
             SizedBox(height: 8,),
             Text(
-              "Dates: $date",
+              "Date: ${event.date}",
               style: textTheme.bodyMedium
             ),
             SizedBox(height: 8,),
             Text(
-              "Previous Winner: $winner",
+              "Time: ${event.time}",
               style: textTheme.bodyMedium,
             ),
             SizedBox(height: 8,),
             Text(
-              "Prize: \$$prize",
+              event.description,
               style: textTheme.bodyMedium
             )
           ],

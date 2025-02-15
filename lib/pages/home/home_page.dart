@@ -27,13 +27,13 @@ class HomePage extends StatelessWidget {
                 title: Text("Golf Championship"),
                 subtitle: Text("Nov 11-12"),
                 onTap: (){
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => EventDetailPage(
-                    name: "Golf Championship",
-                    date: "Nov 11-12",
-                    winner: "Xilai Zhang",
-                    prize: "150",
-                  )));
+                  // Navigator.of(context)
+                  //     .push(MaterialPageRoute(builder: (context) => EventDetailPage(
+                  //   name: "Golf Championship",
+                  //   date: "Nov 11-12",
+                  //   winner: "Xilai Zhang",
+                  //   prize: "150",
+                  // )));
                 },
               ),
               color: Colors.lightGreen,
