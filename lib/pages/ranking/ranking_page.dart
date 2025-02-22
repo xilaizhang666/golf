@@ -14,6 +14,7 @@ class _RankingPageState extends State<RankingPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController scoreController = TextEditingController();
   List<Player> players = [];
+  String? name;
   @override
   void initState() {
     super.initState();
@@ -32,7 +33,7 @@ class _RankingPageState extends State<RankingPage> {
   }
 
   Future<void> addPlayer() async {
-    final index = players.indexWhere((player)=>player.name==nameController.text);
+    final index = players.indexWhere((player)=>player.name==name);
     if(index == -1) {
       Player player = Player(
           name: nameController.text,
@@ -57,6 +58,14 @@ class _RankingPageState extends State<RankingPage> {
     fetchPlayers();
   }
 
+  Future<void> deletePlayer(int index) async {
+    SharedPreferences sf = await SharedPreferences.getInstance();
+    players.removeAt(index);
+    List<String> csvList = players.map((player) => player.toCsv()).toList();
+    sf.setStringList("players", csvList);
+    fetchPlayers();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,24 +75,59 @@ class _RankingPageState extends State<RankingPage> {
       ),
       body: Column(
         children: [
-          DataTable(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: DataTable(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                ),
+                columns: [
+                  DataColumn(label: Text("Rank")),
+                  DataColumn(label: Text("Player")),
+                  DataColumn(label: Text("Score")),
+                  DataColumn(label: Text("Games")),
+                  DataColumn(label: Text("Delete")),
+                ],
+                rows: players.mapIndexed((index, player) {
+                  return DataRow(cells: [
+                    DataCell(Text((index + 1).toString())),
+                    DataCell(Text(player.name)),
+                    DataCell(Text(player.averageScore.toStringAsFixed(1))),
+                    DataCell(Text(player.games.toString())),
+                    DataCell(IconButton(
+                      onPressed: (){
+                        deletePlayer(index);
+                      },
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      ),
+                    ))
+                  ]);
+                }).toList()),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: DropdownButtonFormField<String>(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Select Name'
               ),
-              columns: [
-                DataColumn(label: Text("Rank")),
-                DataColumn(label: Text("Player")),
-                DataColumn(label: Text("Score")),
-                DataColumn(label: Text("Games")),
-              ],
-              rows: players.mapIndexed((index, player) {
-                return DataRow(cells: [
-                  DataCell(Text((index + 1).toString())),
-                  DataCell(Text(player.name)),
-                  DataCell(Text(player.averageScore.toStringAsFixed(1))),
-                  DataCell(Text(player.games.toString())),
-                ]);
-              }).toList()),
+              value: name,
+              items: players.map((player) {
+                return DropdownMenuItem<String>(
+                  value: player.name,
+                  child: Text(player.name),
+                );
+              }).toList(),
+              onChanged: (newValue) {
+                setState(() {
+                  name = newValue;
+                });
+              },
+            ),
+          ),
+
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -106,38 +150,6 @@ class _RankingPageState extends State<RankingPage> {
         onPressed: addPlayer,
         child: Icon(Icons.add),
       ),
-      // body: Center(
-      //   child: Padding(
-      //     padding: const EdgeInsets.all(16.0),
-      //     child: Column(
-      //       children: [
-      //         FutureBuilder(
-      //           future: http.get(Uri.parse("http://10.0.2.2:5000/explore")),
-      //           builder: (context, snapshot){
-      //             return Text(
-      //                 snapshot.hasData ? snapshot.data!.body : 'Loading...',
-      //               style: TextStyle(
-      //                 fontSize: 20
-      //               ),
-      //             );
-      //           }
-      //         ),
-      //         SizedBox(height: 20,),
-      //         FutureBuilder(
-      //             future: http.get(Uri.parse("http://10.0.2.2:5000/test2")),
-      //             builder: (context, snapshot){
-      //               return Text(
-      //                   snapshot.hasData ? snapshot.data!.body : 'Loading...',
-      //                 style: TextStyle(
-      //                   fontSize: 20
-      //                 ),
-      //               );
-      //             }
-      //         ),
-      //       ],
-      //     ),
-      //   )
-      // ),
     );
   }
 }

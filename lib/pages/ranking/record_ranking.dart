@@ -12,13 +12,6 @@ class RecordRanking extends StatelessWidget {
     await sf.setStringList(nameController.text, scoreList);
     Navigator.of(context).pop();
   }
-  /*
-  {
-    key: value
-    Davis: [75, 72, 88],
-    Nick: [88, 64]
-  }
-   */
   @override
   Widget build(BuildContext context) {
     return Scaffold(

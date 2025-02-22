@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:golf/pages/event/create_event_page.dart';
 import 'package:golf/pages/event/event_detail_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:collection/collection.dart';
 
 import '../../models/event.dart';
 
@@ -15,23 +16,13 @@ class EventPage extends StatefulWidget {
 }
 
 class _EventPageState extends State<EventPage> {
-  List currTournaments = [
-    {"name": "Golf Tournament", "dates": "Nov 11-13", "winner": "Bob", "prize": "400"},
-    {"name": "Golf Tournament 2", "dates": "Nov 12-13", "winner": "Hanwen", "prize": "500"},
-    {"name": "Golf Tournament 3", "dates": "Nov 11-14", "winner": "Dehao", "prize": "350"},
-  ];
 
-  List nextTournaments = [
-    {"name": "Golf Tournament", "dates": "Dec 6-7", "winner": "Nicklous", "prize": "450"},
-    {"name": "Golf Tournament 2", "dates": "Dec 12-13", "winner": "Davis", "prize": "350"},
-    {"name": "Golf Tournament 3", "dates": "Dec 28-29", "winner": "Jacob", "prize": "400"},
-  ];
 
   List<Event> events = [];
   @override
   void initState() {
     super.initState();
-
+    fetchEvents();
   }
 
   Future<void> fetchEvents()  async {
@@ -42,22 +33,37 @@ class _EventPageState extends State<EventPage> {
     });
   }
 
+  Future<void> deleteEvent(int index) async {
+    SharedPreferences sf = await SharedPreferences.getInstance();
+    List<String> csvEvents = sf.getStringList("events") ?? [];
+    csvEvents.removeAt(index);
+    sf.setStringList("events", csvEvents);
+    fetchEvents();
+  }
+
   Widget buildEventSection(BuildContext context, String title, List<Event> events) {
-    return Card(
-      child: ExpansionTile(
-        title: Text(title),
-        children: events.map((item) {
-          return ListTile(
-            title: Text(item.name,),
-            subtitle: Text(item.date),
+    print(events);
+    return Column(
+      children: events.mapIndexed ((index, event){
+        return Card(
+          child: ListTile(
+            title: Text(event.name,),
+            subtitle: Text(event.date),
             onTap: (){
               Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventDetailPage(
-                event: item,
+                event: event,
               )));
             },
-          );
-        }).toList(),
-      ),
+            trailing: IconButton(
+              onPressed: (){
+                deleteEvent(index);
+              },
+              icon: Icon(Icons.delete),
+              color: Colors.red,
+            ),
+          ),
+        );
+      }).toList(),
     );
   }
 
@@ -79,7 +85,6 @@ class _EventPageState extends State<EventPage> {
               ),
             ),
             buildEventSection(context, "Current Tournaments", events),
-            buildEventSection(context, "Upcoming Tournaments", events),
           ],
         ),
       ),
@@ -94,4 +99,3 @@ class _EventPageState extends State<EventPage> {
     );
   }
 }
-//For homework: Create an event detail page that simply contains a scaffold and an appbar that says "Event details". Then, apply navigation code to make the ontap open up this pag.

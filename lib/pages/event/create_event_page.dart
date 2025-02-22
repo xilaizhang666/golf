@@ -33,6 +33,16 @@ class CreateEventPage extends StatelessWidget {
       dateController.text = "${picked.toLocal()}".split(' ')[0];
     }
   }
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (picked != null && picked != TimeOfDay.now()) {
+      timeController.text = picked.format(context);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +73,16 @@ class CreateEventPage extends StatelessWidget {
               onTap: () =>_selectDate(context),
             ),
             SizedBox(height: 12),
-            TextField(
+            TextFormField(
               controller: timeController,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  label: Text("Time")
+                border: OutlineInputBorder(),
+                labelText: 'Select Time',
+                prefixIcon: Icon(Icons.access_time),
               ),
+              onTap: () => _selectTime(context),
             ),
+
             SizedBox(height: 12),
             TextField(
               controller: descriptionController,
@@ -81,8 +94,10 @@ class CreateEventPage extends StatelessWidget {
             SizedBox(height: 12),
             ElevatedButton(
                 onPressed: (){
-                  createEvent();
-                  Navigator.of(context).pop();
+                  createEvent().then((value){
+                    Navigator.of(context).pop();
+                  });
+
                 },
                 child: Text("Create")
             )
