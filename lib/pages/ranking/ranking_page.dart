@@ -26,7 +26,7 @@ class _RankingPageState extends State<RankingPage> {
     List<String> csvPlayers = sf.getStringList("players") ?? [];
     List<Player> playersList =
         csvPlayers.map((csv) => Player.fromCsv(csv)).toList();
-    playersList.sort((a, b) => b.averageScore.compareTo(a.averageScore));
+    playersList.sort((a, b) => a.averageScore.compareTo(b.averageScore));
     setState(() {
       players = playersList;
     });

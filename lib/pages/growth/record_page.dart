@@ -92,16 +92,12 @@ class RecordPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              "Current Level: 1",
-              style: textTheme.titleSmall
-            ),
-            SizedBox(height: 20,),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  "Game: 0",
+                  "Games",
                   style: textTheme.titleSmall
                 ),
                 ElevatedButton(
@@ -117,7 +113,7 @@ class RecordPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  "Equipment: 0",
+                  "Equipments",
                   style: textTheme.titleSmall
                 ),
                 ElevatedButton(
@@ -133,7 +129,7 @@ class RecordPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  "Practices: 0",
+                  "Practices",
                   style: textTheme.titleSmall
                 ),
                 ElevatedButton(
