@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collection/collection.dart';
 
 import '../../models/event.dart';
+import '../../theme.dart';
 
 class EventPage extends StatefulWidget {
   EventPage({super.key});
@@ -41,7 +42,7 @@ class _EventPageState extends State<EventPage> {
     fetchEvents();
   }
 
-  Widget buildEventSection(BuildContext context, String title, List<Event> events) {
+  Widget buildEventSection(BuildContext context, List<Event> events) {
     print(events);
     return Column(
       children: events.mapIndexed ((index, event){
@@ -71,7 +72,7 @@ class _EventPageState extends State<EventPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("EventPage"),
+        title: Text("Events"),
         backgroundColor: Colors.lightGreen,
       ),
       body: SingleChildScrollView(
@@ -80,11 +81,16 @@ class _EventPageState extends State<EventPage> {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: Image.asset(
-                'assets/logo.png',
+                'assets/Unknown.png',
                 height: 150.0,
               ),
             ),
-            buildEventSection(context, "Current Tournaments", events),
+            SizedBox(height: 20,),
+            Text(
+              "Current Tournaments",
+              style: textTheme.titleSmall,
+            ),
+            buildEventSection(context, events),
           ],
         ),
       ),

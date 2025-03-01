@@ -16,29 +16,28 @@ class EventDetailPage extends StatelessWidget {
         ),
         backgroundColor: Colors.lightGreen,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
+      body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               "Event: ${event.name}",
-              style: textTheme.titleMedium,
+              style: textTheme.titleLarge,
             ),
             SizedBox(height: 8,),
             Text(
               "Date: ${event.date}",
-              style: textTheme.bodyMedium
+              style: textTheme.titleMedium
             ),
             SizedBox(height: 8,),
             Text(
               "Time: ${event.time}",
-              style: textTheme.bodyMedium,
+              style: textTheme.titleMedium,
             ),
             SizedBox(height: 8,),
             Text(
               event.description,
-              style: textTheme.bodyMedium
+              style: textTheme.titleMedium
             )
           ],
         ),

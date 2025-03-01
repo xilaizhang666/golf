@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class EditProfile extends StatelessWidget {
+class EditProfile extends StatefulWidget {
   EditProfile({super.key});
+
+  @override
+  State<EditProfile> createState() => _EditProfileState();
+}
+
+class _EditProfileState extends State<EditProfile> {
   final TextEditingController nameController = TextEditingController();
+
   final TextEditingController ageController = TextEditingController();
-  final TextEditingController genderController = TextEditingController();
+
+
+  String? gender;
   Future<void> saveProfile() async {
     SharedPreferences sf = await SharedPreferences.getInstance();
     await sf.setString("name", nameController.text);
     await sf.setString("age", ageController.text);
-    await sf.setString("gender", genderController.text);
+    await sf.setString("gender", gender.toString());
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +34,7 @@ class EditProfile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/logo.png',
+              'assets/Unknown.png',
               height: 300.0,
             ),
             Padding(
@@ -40,6 +50,7 @@ class EditProfile extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                keyboardType: TextInputType.number,
                 controller: ageController,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -49,12 +60,23 @@ class EditProfile extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: genderController,
+              child: DropdownButtonFormField<String>(
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    label: Text("Gender")
+                    labelText: 'Select Gender'
                 ),
+                value: gender,
+                items: ["Male", "Female"].map((option) {
+                  return DropdownMenuItem<String>(
+                    value: option,
+                    child: Text(option),
+                  );
+                }).toList(),
+                onChanged: (newValue) {
+                  setState(() {
+                    gender = newValue;
+                  });
+                },
               ),
             ),
             ElevatedButton(

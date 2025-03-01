@@ -63,6 +63,9 @@ class _RankingPageState extends State<RankingPage> {
     players.removeAt(index);
     List<String> csvList = players.map((player) => player.toCsv()).toList();
     sf.setStringList("players", csvList);
+    setState(() {
+      name = null;
+    });
     fetchPlayers();
   }
 
@@ -71,7 +74,7 @@ class _RankingPageState extends State<RankingPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightGreen,
-        title: Text("RankingPage"),
+        title: Text("Rankings"),
       ),
       body: Column(
         children: [
@@ -127,7 +130,7 @@ class _RankingPageState extends State<RankingPage> {
               },
             ),
           ),
-
+          name == null ?
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -135,7 +138,7 @@ class _RankingPageState extends State<RankingPage> {
               decoration: InputDecoration(
                   border: OutlineInputBorder(), label: Text("Name")),
             ),
-          ),
+          ) : Container(),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(

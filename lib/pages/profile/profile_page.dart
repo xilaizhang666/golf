@@ -13,7 +13,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   String name = "";
   String age = "";
-  String gender = "";
+  String gender = "Unknown";
 
   @override
   void initState() {
@@ -33,7 +33,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Profile Page"),
+        title: Text("Profile"),
         backgroundColor: Colors.lightGreen,
       ),
       body: Center(
@@ -41,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
           Image.asset(
-            'assets/logo.png',
+            'assets/$gender.png',
             height: 300.0,
           ),
           Text(

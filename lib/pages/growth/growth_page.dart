@@ -16,12 +16,14 @@ class _GrowthPageState extends State<GrowthPage> {
   List<String> games = [];
   List<String> equipment = [];
   List<String> practices = [];
+  String gender = "Unknown";
   @override
   void initState() {
     super.initState();
     loadGames();
     loadEquipment();
     loadPractices();
+    loadGender();
   }
   Future<void> loadGames() async {
     SharedPreferences sf = await SharedPreferences.getInstance();
@@ -41,12 +43,18 @@ class _GrowthPageState extends State<GrowthPage> {
       practices = sf.getStringList("practices") ?? [];
     });
   }
+  Future<void> loadGender() async {
+    SharedPreferences sf = await SharedPreferences.getInstance();
+    setState(() {
+      gender = sf.getString("gender") ?? "Unknown";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Growth Screen"),
+        title: Text("Growths"),
         backgroundColor: Colors.lightGreen,
       ),
       body: Center(
@@ -55,15 +63,8 @@ class _GrowthPageState extends State<GrowthPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/logo.png',
+                'assets/$gender.png',
                 height: 300.0,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "Level 1",
-                  style: textTheme.bodyLarge
-                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -112,7 +113,12 @@ class _GrowthPageState extends State<GrowthPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => RecordPage()));
+              .push(MaterialPageRoute(builder: (context) => RecordPage()))
+              .then((onValue){
+            loadGames();
+            loadEquipment();
+            loadPractices();
+          });
         },
         child: Icon(Icons.add),
       ),

@@ -85,7 +85,7 @@ class RecordPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Record Page"),
+        title: Text("Record"),
         backgroundColor: Colors.lightGreen,
       ),
       body: Center(
